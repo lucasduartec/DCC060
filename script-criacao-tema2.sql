@@ -8,7 +8,7 @@ CREATE TABLE cliente (
 
 CREATE TABLE pedido (
 		id_pedido serial not null primary key,
-		id_cliente integer REFERENCES cliente(id_cliente) not null,
+		id_cliente integer REFERENCES cliente(id_cliente) ON UPDATE CASCADE ON DELETE RESTRICT not null,	
 		data_pedido date not null,
 		estado_pedido text not null
 );
@@ -32,4 +32,33 @@ CREATE TABLE mesa (
 		id_mesa serial not null primary key,
 		numero_mesa integer not null,
 		capacidade integer not null
+);
+
+CREATE TABLE cliente_pedido (
+		id_realizacao serial not null primary key,
+		id_cliente integer REFERENCES cliente(id_cliente) ON UPDATE CASCADE ON DELETE RESTRICT not null ,
+		id_pedido integer REFERENCES pedido(id_pedido) ON UPDATE CASCADE ON DELETE RESTRICT not null , 
+		data_realizacao date not null
+);
+
+CREATE TABLE pedido_item_menu (
+		id_contem serial not null primary key,
+		id_pedido integer REFERENCES pedido(id_pedido) ON UPDATE CASCADE ON DELETE RESTRICT not null, 
+		id_item integer REFERENCES item_menu(id_item) ON UPDATE CASCADE ON DELETE RESTRICT not null, 
+		quantidade integer not null
+);
+
+CREATE TABLE funcionario_pedido (
+		id_atendimento serial not null primary key, 
+		id_funcionario integer REFERENCES funcionario(id_funcionario) ON UPDATE CASCADE ON DELETE RESTRICT not null,
+		id_pedido integer REFERENCES pedido(id_pedido) ON UPDATE CASCADE ON DELETE RESTRICT not null,
+		hora_atendimento time not null
+);
+
+CREATE TABLE mesa_pedido (
+		id_ocupacao serial not null primary key,
+		id_mesa integer REFERENCES mesa(id_mesa) ON UPDATE CASCADE ON DELETE RESTRICT not null, 
+		id_pedido integer REFERENCES pedido(id_pedido) ON UPDATE CASCADE ON DELETE RESTRICT not null,
+		hora_inicio time not null, 
+		hora_fim time not null
 );
