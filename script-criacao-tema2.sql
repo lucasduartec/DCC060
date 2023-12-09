@@ -8,9 +8,9 @@ CREATE TABLE cliente (
 
 CREATE TABLE pedido (
 		id_pedido serial not null primary key,
-		id_cliente integer not null,		/* ADICIONAR CONSTRAINT DE FOREIGN KEY */
+		id_cliente integer REFERENCES cliente(id_cliente) not null,
 		data_pedido date not null,
-		estado_pedido integer not null
+		estado_pedido text not null
 );
 
 CREATE TABLE item_menu (
