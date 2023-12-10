@@ -58,7 +58,6 @@ CREATE TABLE mesa_ocupa_pedido (
 
 /* Index */
 CREATE INDEX idx_pedido_cliente ON pedido(id_cliente);
-CREATE INDEX idx_cliente_realiza_pedido_pedido ON cliente_realiza_pedido(id_pedido);
 CREATE INDEX idx_pedido_contem_item_pedido ON pedido_contem_item(id_pedido);
 CREATE INDEX idx_pedido_contem_item_item ON  pedido_contem_item(id_item);
 CREATE INDEX idx_funcionario_atende_pedido_funcionario ON funcionario_atende_pedido(id_funcionario);
