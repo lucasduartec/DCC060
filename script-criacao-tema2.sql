@@ -34,13 +34,6 @@ CREATE TABLE mesa (
 		capacidade integer not null
 );
 
-CREATE TABLE cliente_realiza_pedido (
-		id_realizacao serial not null primary key,
-		id_cliente integer REFERENCES cliente(id_cliente) ON UPDATE CASCADE ON DELETE RESTRICT not null ,
-		id_pedido integer REFERENCES pedido(id_pedido) ON UPDATE CASCADE ON DELETE RESTRICT not null , 
-		data_realizacao date not null
-);
-
 CREATE TABLE pedido_contem_item (
 		id_contem serial not null primary key,
 		id_pedido integer REFERENCES pedido(id_pedido) ON UPDATE CASCADE ON DELETE RESTRICT not null, 
