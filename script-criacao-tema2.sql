@@ -8,7 +8,7 @@ CREATE TABLE cliente (
 
 CREATE TABLE pedido (
 		id_pedido serial not null primary key,
-		id_cliente integer REFERENCES cliente(id_cliente) ON UPDATE CASCADE ON DELETE RESTRICT not null,	
+		id_cliente integer REFERENCES cliente(id_cliente) ON UPDATE CASCADE ON DELETE RESTRICT not null,		/* ADICIONAR CONSTRAINT DE FOREIGN KEY */
 		data_pedido date not null,
 		estado_pedido text not null
 );
@@ -62,3 +62,13 @@ CREATE TABLE mesa_pedido (
 		hora_inicio time not null, 
 		hora_fim time not null
 );
+
+/* Index */
+CREATE INDEX idx_pedido_cliente ON pedido(id_cliente);
+CREATE INDEX idx_cliente_pedido_pedido ON cliente_pedido(id_pedido);
+CREATE INDEX idx_pedido_item_menu_pedido ON pedido_item_menu(id_pedido);
+CREATE INDEX idx_pedido_item_menu_item ON pedido_item_menu(id_item);
+CREATE INDEX idx_funcionario_pedido_funcionario ON funcionario_pedido(id_funcionario);
+CREATE INDEX idx_funcionario_pedido_pedido ON funcionario_pedido(id_pedido);
+CREATE INDEX idx_mesa_pedido_mesa ON mesa_pedido(id_mesa);
+CREATE INDEX idx_mesa_pedido_pedido  ON mesa_pedido(id_pedido);
