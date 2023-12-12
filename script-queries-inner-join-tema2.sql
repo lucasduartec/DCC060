@@ -1,13 +1,12 @@
 /*LISTA DE CLIENTES JUNTO COM SEUS RESPECTIVOS PEDIDOS ORDENADOS PELOS CLIENTES EM ORDEM ALFABÉTICA E DEPOIS PELO PEDIDO*/
 SELECT 
-		c.nome as nome_cliente,
-		c.sobrenome as sobrenome_cliente,
+		c.nome || ' ' || c.sobrenome AS nome_cliente,
 		p.id_pedido
 FROM 
 	cliente c
 		inner join pedido p ON (c.id_cliente = p.id_cliente)
 ORDER BY
-		c.nome ASC,
+		nome_cliente ASC,
 		p.id_pedido;
 		
 		
@@ -25,26 +24,24 @@ ORDER BY
 	fp.id_pedido;
 
 
-/*LISTA CLIENTES COM SEUS RESPECTIVOS PEDIDOS E ITENS NOS PEDIDOS*/
+/*LISTA PEDIDOS E ITENS*/
 SELECT 
-		c.nome as nome_cliente,
-		c.sobrenome as sobrenome_cliente,
 		p.id_pedido, 
 		i.nome_item, 
 		pci.quantidade
 FROM
 		pedido_contem_item as pci
 		INNER JOIN pedido as p ON (p.id_pedido = pci.id_pedido)
-		INNER JOIN cliente as c ON (p.id_cliente = c.id_cliente)
 		INNER JOIN item as i ON (i.id_item = pci.id_item)
 ORDER BY 
-		c.nome ASC;
+		p.id_pedido;
+		
 			
 /*LISTA FUNCIONARIO DE ACORDO COM SEUS ATENDIMENTOS EM CADA MESA*/
 SELECT 
-		f.nome as nome_funcionario,
-		f.sobrenome as sobrenome_funcionario, 
-		m.numero_mesa as mesa_atendida
+		f.nome || ' ' || f.sobrenome AS nome_funcionario,
+		m.numero_mesa as mesa_atendida,
+		fap.id_pedido
 FROM
 		mesa_ocupa_pedido as mop
 		INNER JOIN mesa as m ON (m.id_mesa = mop.id_mesa)
@@ -52,7 +49,9 @@ FROM
 		INNER JOIN funcionario as f ON (f.id_funcionario = fap.id_funcionario)
 ORDER BY 
 		f.nome ASC,
-		mesa_atendida;
+		mesa_atendida,
+		fap.id_pedido;
+		
 
 /*LISTA OS ITENS E O PREÇO DE CADA PEDIDO ATENDIDO POR UM DETERMINADO FUNCIONARIO.*/
 SELECT 
