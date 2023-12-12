@@ -30,7 +30,7 @@ GROUP BY m.numero_mesa
 ORDER BY total_ocupacoes DESC;
 
 /* Total de pedidos por cliente */
-/* Esses dados podem ser úteis para programas de fidelidade ou promoções direcionadas. */
+/* Esse dado pode ser útil para programas de fidelidade ou promoções direcionadas. */
 
 SELECT c.nome || ' ' || c.sobrenome AS nome_cliente,
 COUNT(p.id_pedido) AS total_pedidos
@@ -39,22 +39,13 @@ INNER JOIN pedido p ON c.id_cliente = p.id_cliente
 GROUP BY nome_cliente
 ORDER BY total_pedidos DESC;
 
-/* Pedidos com o maior valor de cada cliente */
-/* Esta consulta retorna todos os pedidos ordenados pelo valor total em ordem decrescente. */
+/*  Quantidade total de itens vendidos em cada categoria */
+/* Permite identificar quais categorias de itens são mais populares entre os clientes */
 
-SELECT
-	p.id_pedido,
-    c.nome || ' ' || c.sobrenome AS nome_cliente,
-    SUM(i.preco_item * contem.quantidade) AS total_valor_pedido
-FROM
-    pedido p
-INNER JOIN
-    cliente c ON p.id_cliente = c.id_cliente
-INNER JOIN
-    pedido_contem_item contem ON p.id_pedido = contem.id_pedido
-INNER JOIN
-    item i ON contem.id_item = i.id_item
-GROUP BY
-    p.id_pedido, nome_cliente
-ORDER BY
-    total_valor_pedido DESC;
+SELECT i.categoria_item,
+SUM (contem.quantidade) AS total_itens_vendidos
+FROM item i
+INNER JOIN pedido_contem_item contem ON i.id_item = contem.id_item
+GROUP BY i.categoria_item
+ORDER BY total_itens_vendidos DESC;
+
