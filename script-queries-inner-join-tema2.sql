@@ -12,17 +12,15 @@ ORDER BY
 		
 /*LISTA DE PEDIDOS COM SEUS RESPECTIVOS CLIENTES E FUNCIONARIOS ORDENADOS PELO ID DO PEDIDO*/
 SELECT 
-    fp.id_pedido,
+    p.id_pedido,
     f.nome AS nome_funcionario,
     c.nome AS nome_cliente
 FROM 
-    funcionario_atende_pedido fp
-    INNER JOIN funcionario f ON fp.id_funcionario = f.id_funcionario
-    INNER JOIN pedido p ON fp.id_pedido = p.id_pedido
+    pedido p
+    INNER JOIN funcionario f ON p.id_funcionario = f.id_funcionario
     INNER JOIN cliente c ON p.id_cliente = c.id_cliente
 ORDER BY
-	fp.id_pedido;
-
+    p.id_pedido;
 
 /*LISTA PEDIDOS E ITENS*/
 SELECT 
@@ -37,22 +35,19 @@ ORDER BY
 		p.id_pedido;
 		
 			
-/*LISTA FUNCIONARIO DE ACORDO COM SEUS ATENDIMENTOS EM CADA MESA*/
+/* LISTA FUNCIONARIO DE ACORDO COM SEUS ATENDIMENTOS EM CADA MESA */
 SELECT 
-		f.nome || ' ' || f.sobrenome AS nome_funcionario,
-		p.data_pedido,
-		m.numero_mesa as mesa_atendida,
-		fap.id_pedido
+    f.nome || ' ' || f.sobrenome AS nome_funcionario,
+    m.numero_mesa AS mesa_atendida,
+    p.id_pedido,
+	p.data_pedido
 FROM
-		mesa_ocupa_pedido as mop
-		INNER JOIN mesa as m ON (m.id_mesa = mop.id_mesa)
-		INNER JOIN funcionario_atende_pedido as fap ON (mop.id_pedido = fap.id_pedido)
-		INNER JOIN funcionario as f ON (f.id_funcionario = fap.id_funcionario)
-		INNER JOIN pedido as p ON (p.id_pedido = fap.id_pedido)
+    pedido p
+    INNER JOIN mesa m ON p.id_mesa = m.id_mesa
+    INNER JOIN funcionario f ON p.id_funcionario = f.id_funcionario
 ORDER BY 
-		f.nome ASC,
-		p.data_pedido,
-		mesa_atendida;
+    f.nome ASC,
+    p.data_pedido;
 
 /*LISTA OS CLIENTE E OS GASTOS TOTAIS NO RESTAURANTE COM TODOS OS PEDIDOS.*/
 SELECT 
