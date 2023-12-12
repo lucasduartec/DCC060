@@ -1,5 +1,5 @@
-/* Itens mais pedidos */
-/* Com essa informação, podemos melhorar o abastecimento do estoque com os ingredientes usados nos pratos mais pedidos e criar promoções sobre os itens */
+/* Mostra a quantidade total de vezes que cada item foi pedido */
+/* Ao saber os itens mais pedidos, podemos melhorar o abastecimento do estoque com os ingredientes usados nesses pratos e criar promoções sobre produtos*/
 
 SELECT i.nome_item,
 SUM(contem.quantidade) AS total_pedidos
@@ -8,29 +8,28 @@ INNER JOIN pedido_contem_item contem ON i.id_item = contem.id_item
 GROUP BY i.nome_item
 ORDER BY total_pedidos DESC;
 
-/* Funcionário que atendeu a mais/menos pedidos */
-/* A partir dessa informação, podemos saber qual funcionário que mais atende aos pedidos ou algum funcionário que está com rendimento baixo. */
+/* Mostra o total de pedidos atendidos por cada funcionário (garçom) */
+/* A partir dessa informação, podemos saber qual funcionário mais atende aos pedidos, proporcionando um possível aumento salarial,
+ou algum funcionário que está com rendimento baixo. */
 
-SELECT f.nome,
-COUNT(atend.id_pedido) AS total_pedidos_atendidos
-FROM funcionario f
-INNER JOIN funcionario_atende_pedido atend ON f.id_funcionario = atend.id_funcionario
+SELECT f.nome AS nome_funcionario, COUNT(p.id_pedido) AS total_pedidos_atendidos
+FROM pedido p
+JOIN funcionario f ON p.id_funcionario = f.id_funcionario
 GROUP BY f.nome
-ORDER BY total_pedidos_atendidos DESC;
+ORDER BY total_pedidos_atendidos DESC
 
-/* Mesas com mais/menos pedidos */
+/* Lista a quantidade total de pedidos por mesa */
 /* A partir dessa informação, podemos estudar quais mesas são mais requisitadas pelos clientes (devido a localização no restaurante, por ex.) e as que são
-menos preferidas. Dessa forma, podemos observar pontos de melhoria nessas áreas. */
+menos preferidas. Dessa forma, podemos otimizar a disposição das mesas no restaurante. */
 
-SELECT m.numero_mesa,
-COUNT(mop.id_pedido) AS total_ocupacoes
-FROM mesa m
-INNER JOIN mesa_ocupa_pedido mop ON m.id_mesa = mop.id_mesa
+SELECT m.numero_mesa, COUNT(p.id_pedido) AS total_pedidos_na_mesa
+FROM pedido p
+JOIN mesa m ON p.id_mesa = m.id_mesa
 GROUP BY m.numero_mesa
-ORDER BY total_ocupacoes DESC;
+ORDER BY total_pedidos_na_mesa DESC
 
-/* Total de pedidos por cliente */
-/* Esse dado pode ser útil para programas de fidelidade ou promoções direcionadas. */
+/* Lista o total de pedidos realizados por cada cliente */
+/* Saber quais são os clientes mais frequentes pode ser útil para viabilizar programas de fidelidade ou promoções direcionadas. */
 
 SELECT c.nome || ' ' || c.sobrenome AS nome_cliente,
 COUNT(p.id_pedido) AS total_pedidos
@@ -39,8 +38,8 @@ INNER JOIN pedido p ON c.id_cliente = p.id_cliente
 GROUP BY nome_cliente
 ORDER BY total_pedidos DESC;
 
-/*  Quantidade total de itens vendidos em cada categoria */
-/* Permite identificar quais categorias de itens são mais populares entre os clientes */
+/*  Lista a quantidade total de itens vendidos em cada categoria */
+/* Permite identificar quais categorias de itens são mais rentáveis e populares entre os clientes */
 
 SELECT i.categoria_item,
 SUM (contem.quantidade) AS total_itens_vendidos
