@@ -20,7 +20,12 @@ VALUES 	('Rodrigo', 'Soares', '24988679969', 'rodrigo@gmail.com'),
 		('Thiago', 'Pereira Lima', '2199771122', 'thiago@email.com'),
 		('Cristina', 'Santos Costa', '2199667788', 'cristina@email.com'),
 		('Felipe', 'Mendes Silva', '1199553344', 'felipe@email.com'),
-		('Marina', 'Ribeiro Almeida', '1199881122', 'marina@email.com');
+		('Marina', 'Ribeiro Almeida', '1199881122', 'marina@email.com'),
+	  	('Vanessa', 'Oliveira', '2199881122', 'vanessa@email.com'),
+    		('Pedro', 'Santos', '1199776655', 'pedro@email.com'),
+    		('Amanda', 'Martins', '2199887766', 'amanda@email.com'),
+    		('Gabriel', 'Ferreira', '1199885544', 'gabriel@email.com'),
+    		('Carolina', 'Silva', '1199443322', 'carolina@email.com');
 
 
 /*PEDIDO*/
