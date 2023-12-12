@@ -40,6 +40,7 @@ ORDER BY
 /*LISTA FUNCIONARIO DE ACORDO COM SEUS ATENDIMENTOS EM CADA MESA*/
 SELECT 
 		f.nome || ' ' || f.sobrenome AS nome_funcionario,
+		p.data_pedido,
 		m.numero_mesa as mesa_atendida,
 		fap.id_pedido
 FROM
@@ -47,24 +48,20 @@ FROM
 		INNER JOIN mesa as m ON (m.id_mesa = mop.id_mesa)
 		INNER JOIN funcionario_atende_pedido as fap ON (mop.id_pedido = fap.id_pedido)
 		INNER JOIN funcionario as f ON (f.id_funcionario = fap.id_funcionario)
+		INNER JOIN pedido as p ON (p.id_pedido = fap.id_pedido)
 ORDER BY 
 		f.nome ASC,
-		mesa_atendida,
-		fap.id_pedido;
-		
+		p.data_pedido,
+		mesa_atendida;
 
-/*LISTA OS ITENS E O PREÇO DE CADA PEDIDO ATENDIDO POR UM DETERMINADO FUNCIONARIO.*/
+/*LISTA OS CLIENTE E OS GASTOS TOTAIS NO RESTAURANTE COM TODOS OS PEDIDOS.*/
 SELECT 
-		f.nome AS nome_funcionario,
-		p.id_pedido,
-		i.nome_item, 
-		i.preco_item
+		c.nome || ' ' || c.sobrenome AS nome_cliente,
+		SUM(i.preco_item * pci.quantidade) AS total_gasto
 FROM 
-		pedido p
+		cliente as c
+			INNER JOIN pedido p ON c.id_cliente = p.id_cliente
 			INNER JOIN pedido_contem_item pci ON p.id_pedido = pci.id_pedido
 			INNER JOIN item i ON pci.id_item = i.id_item
-			INNER JOIN funcionario_atende_pedido fa ON p.id_pedido = fa.id_pedido
-			INNER JOIN funcionario f ON fa.id_funcionario = f.id_funcionario
-ORDER BY 
-		nome_funcionario ASC,
-		p.id_pedido;
+GROUP BY 
+			nome_cliente;
