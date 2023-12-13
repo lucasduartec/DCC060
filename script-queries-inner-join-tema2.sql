@@ -1,4 +1,4 @@
-/*LISTA DE CLIENTES JUNTO COM SEUS RESPECTIVOS PEDIDOS ORDENADOS PELOS CLIENTES EM ORDEM ALFABÉTICA E DEPOIS PELO PEDIDO*/
+/*LISTA DE CLIENTES JUNTO COM SEUS RESPECTIVOS PEDIDOS ORDENADOS*/
 SELECT 
 		c.nome || ' ' || c.sobrenome AS nome_cliente,
 		p.id_pedido
@@ -10,19 +10,21 @@ ORDER BY
 		p.id_pedido;
 		
 		
-/*LISTA DE PEDIDOS COM SEUS RESPECTIVOS CLIENTES E FUNCIONARIOS ORDENADOS PELO ID DO PEDIDO*/
+/*LISTA DE PEDIDOS COM SEUS RESPECTIVOS VALORES TOTAIS*/
 SELECT 
-    p.id_pedido,
-    f.nome AS nome_funcionario,
-    c.nome AS nome_cliente
+		p.id_pedido,
+		SUM(pci.quantidade * i.preco_item) as total_pedido
 FROM 
-    pedido p
-    INNER JOIN funcionario f ON p.id_funcionario = f.id_funcionario
-    INNER JOIN cliente c ON p.id_cliente = c.id_cliente
+		pedido p 
+			inner join pedido_contem_item pci ON (p.id_pedido = pci.id_pedido)
+			inner join item i on (pci.id_item = i.id_item)
+GROUP BY
+		p.id_pedido
 ORDER BY
-    p.id_pedido;
+		p.id_pedido;
+			
 
-/*LISTA PEDIDOS E ITENS*/
+/*LISTA PEDIDOS JUNTO DOS ITENS*/
 SELECT 
 		p.id_pedido, 
 		i.nome_item, 
@@ -49,7 +51,7 @@ ORDER BY
     f.nome ASC,
     p.data_pedido;
 
-/*LISTA OS CLIENTE E OS GASTOS TOTAIS NO RESTAURANTE COM TODOS OS PEDIDOS.*/
+/*LISTA OS CLIENTES E OS GASTOS TOTAIS NO RESTAURANTE COM TODOS OS PEDIDOS.*/
 SELECT 
 		c.nome || ' ' || c.sobrenome AS nome_cliente,
 		SUM(i.preco_item * pci.quantidade) AS total_gasto
@@ -59,4 +61,4 @@ FROM
 			INNER JOIN pedido_contem_item pci ON p.id_pedido = pci.id_pedido
 			INNER JOIN item i ON pci.id_item = i.id_item
 GROUP BY 
-			nome_cliente;
+			nome_cliente;	
