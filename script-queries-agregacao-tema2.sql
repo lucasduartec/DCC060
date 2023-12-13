@@ -16,7 +16,7 @@ SELECT f.nome AS nome_funcionario, COUNT(p.id_pedido) AS total_pedidos_atendidos
 FROM pedido p
 JOIN funcionario f ON p.id_funcionario = f.id_funcionario
 GROUP BY f.nome
-ORDER BY total_pedidos_atendidos DESC
+ORDER BY total_pedidos_atendidos DESC;
 
 /* Lista a quantidade total de pedidos por mesa */
 /* A partir dessa informação, podemos estudar quais mesas são mais requisitadas pelos clientes (devido a localização no restaurante, por ex.) e as que são
@@ -26,7 +26,7 @@ SELECT m.numero_mesa, COUNT(p.id_pedido) AS total_pedidos_na_mesa
 FROM pedido p
 JOIN mesa m ON p.id_mesa = m.id_mesa
 GROUP BY m.numero_mesa
-ORDER BY total_pedidos_na_mesa DESC
+ORDER BY total_pedidos_na_mesa DESC;
 
 /* Lista o total de pedidos realizados por cada cliente */
 /* Saber quais são os clientes mais frequentes pode ser útil para viabilizar programas de fidelidade ou promoções direcionadas. */
